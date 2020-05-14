@@ -1,3 +1,4 @@
+package tests;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,20 +13,20 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.config.parser.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Properties;
 
 import static org.junit.Assert.*;
 
 public class TestVodafoneLogin {
 
     public static final String ACCOUNT_ICON_TITLE = "My Profile";
-    public static final String ACCOUNT_PHONENUMBER = "01090614633";
-    public static final String ACCOUNT_PASSWORD = "oNe_status_1";
     private static final String VODAFONE_TEST_URL = "https://web.vodafone.com.eg/en/home";
     public static final String PATH_TO_WEBDRIVER = "webdriver/chromedriver";
     private WebDriver driver;
+	ConfigParser props;
 
     @Before
     public void prepare() {
@@ -38,6 +39,7 @@ public class TestVodafoneLogin {
         // driver = new ChromeDriver(chromeOptions);
         driver = new ChromeDriver();
         driver.get(VODAFONE_TEST_URL);
+        props = new ConfigParser();
     }
 
     @Test
@@ -55,10 +57,10 @@ public class TestVodafoneLogin {
         assertEquals(myProfileIconString,ACCOUNT_ICON_TITLE);
 	}
 
-	private void assertUserDetailsExistsInPage() {
+	private void assertUserDetailsExistsInPage() throws IOException {
 		WebElement accountNumberTitle = waitForElementToBeVisible(By.className("service-selector__active-number"));
         String AccountHeadingTitle = accountNumberTitle.getText();
-        assertTrue(AccountHeadingTitle.contains(ACCOUNT_PHONENUMBER));
+        assertTrue(AccountHeadingTitle.contains(props.getByKey("user")));
 	}
 
 	private void openUserProfileMenu() {
@@ -66,11 +68,11 @@ public class TestVodafoneLogin {
         myProfileIcon.click();
 	}
 
-    private void loginToAccount() throws InterruptedException {
+    private void loginToAccount() throws InterruptedException, IOException {
           WebElement loginNumberField = waitForElementToBeVisible(By.id("username"));
-          loginNumberField.sendKeys(ACCOUNT_PHONENUMBER);
+          loginNumberField.sendKeys(props.getByKey("user"));
           WebElement loginPasswordField = waitForElementToBeVisible(By.id("password"));
-          loginPasswordField.sendKeys(ACCOUNT_PASSWORD);
+          loginPasswordField.sendKeys(props.getByKey("password"));
           loginPasswordField.sendKeys(Keys.RETURN);
     }
 
