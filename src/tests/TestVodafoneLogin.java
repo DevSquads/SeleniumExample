@@ -69,6 +69,7 @@ public class TestVodafoneLogin {
 	}
 
     private void loginToAccount() throws InterruptedException, IOException {
+    	  WebElement submitButton = waitForElementToBeVisible(By.id("submitBtn"));
           WebElement loginNumberField = waitForElementToBeVisible(By.id("username"));
           loginNumberField.sendKeys(props.getByKey("user"));
           WebElement loginPasswordField = waitForElementToBeVisible(By.id("password"));
