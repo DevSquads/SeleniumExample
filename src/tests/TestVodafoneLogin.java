@@ -24,7 +24,7 @@ public class TestVodafoneLogin {
 
     public static final String ACCOUNT_ICON_TITLE = "My Profile";
     private static final String VODAFONE_TEST_URL = "https://web.vodafone.com.eg/en/home";
-    public static final String PATH_TO_WEBDRIVER = "webdriver/chromedriver";
+    public static final String PATH_TO_WEBDRIVER = "webdriver/chromedriver"; // chrome v97.0.4692
     private WebDriver driver;
 	ConfigParser props;
 
@@ -52,19 +52,19 @@ public class TestVodafoneLogin {
     }
 
 	private void assertMyProfileIconTitleExsits() {
-		WebElement myProfileIconInlineText = waitForElementsToBeVisible(By.cssSelector(".navigation__link.navigation__link--secondary")).get(0);
+		WebElement myProfileIconInlineText = waitForElementsToBeVisible(By.cssSelector(".nav-item-link.nav-user-list-link")).get(0);
         String myProfileIconString = myProfileIconInlineText.getText();
         assertEquals(myProfileIconString,ACCOUNT_ICON_TITLE);
 	}
 
 	private void assertUserDetailsExistsInPage() throws IOException {
-		WebElement accountNumberTitle = waitForElementToBeVisible(By.className("service-selector__active-number"));
+		WebElement accountNumberTitle = waitForElementToBeVisible(By.id("account-switch-number"));
         String AccountHeadingTitle = accountNumberTitle.getText();
         assertTrue(AccountHeadingTitle.contains(props.getByKey("user")));
 	}
 
 	private void openUserProfileMenu() {
-		WebElement myProfileIcon = waitForElementsToBeVisible(By.cssSelector(".js-navigation-item.navigation__item.navigation__item--right.js-navigation-item-clickable.navigation__item--clickable.user-menu")).get(0);
+		WebElement myProfileIcon = waitForElementsToBeVisible(By.id("avatar")).get(0);
         myProfileIcon.click();
 	}
 
